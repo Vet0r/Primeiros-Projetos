@@ -1,0 +1,311 @@
+Algoritmo "SIMULT-PDF"
+//          LEGENDA DAS VAR
+// qq: quantidade de quadrados (string que contem espaços necessaros para tabelas editadas)
+// mcar: (MCaractere)numero de espaços da primeira tabela com baiávese na variavel m (string que contem espaços necessaros para tabelas editadas)
+// q:inteiras com quantidade numérica de espaços
+Var
+   mcarsoma,mcarNome,mcarmodelo,mcarmulta:caracter//caractere mcar
+   modelo,numeroCarteira,senha,c,placa,nome,traco:caracter//caractere de uso geral
+   qqtotal,qqLeve,qqMedia,qqGrave,qqGravissima,qqmultamedia:caracter//caractere qq
+   qqmultaleve,qqmultagrave,qqmultagravissima,qqmultatotal:caracter//caracteres qq
+   mcarplaca,mcarcarteira,tipoMulta,verifica:caracter //caractere mcar
+   m,qLeve,qGrave,qMedia,qGravissima,qtotal,total:inteiro //inteiras q
+   i,es,verificaPlaca,verificaCarteira:inteiro //inteiras de verificação e outras
+   multaLeve,multaMedia,multaGrave,multaGravissima,multatotal:real //reais de valor monetário
+funcao enter():caracter  //mensagem de erro usada no programa
+retorne("Aperte ENTER para tentar novamente")
+fimfuncao
+
+funcao fazerTabela(precomulta,m:inteiro):caracter  //primeira tabela, tabela de 2 colunas para cadastro de multa
+var
+   i:inteiro
+   quantosquadrados:caracter
+inicio
+   para i de 1 até m-precomulta passo 1 faca
+      quantosquadrados<-" "+quantosquadrados
+   fimpara
+   retorne quantosquadrados  //retorna quantos espaços serão necessarios para ajudte da tabela
+fimfuncao
+
+funcao compararM(mnumero:inteiro):Inteiro  //gerer m. m:variavel caractere de MAIOR tamanho
+var
+inicio
+   se (m < mnumero) entao
+      m<-mnumero
+   fimse
+   retorne (m)
+fimfuncao
+
+funcao fazerTabelaDois(precomulta:inteiro):caracter  //segunda tabela, tabela de 3 colunas para arrecadação de fundos
+var
+   i,q:inteiro
+   quantosquadrados:caracter
+inicio
+   q<-int((16-precomulta)/2)
+   para i de 1 até q passo 1 faca
+      quantosquadrados<-" "+quantosquadrados
+   fimpara
+   retorne quantosquadrados
+fimfuncao
+
+Inicio                          //introdução do sistema
+   escreval ("                SIMULT-PDF")
+   escreval ("Sistema de Multas de Trânsito - Pau dos Ferros")
+   para i de 1 até 12 passo 1 faca
+      escreval("")
+   fimpara
+   timer (300)    //timer para carregamento
+   escreval ("Prefeitura de Pau dos Ferros             v1.0")
+   escreval ("")
+   escreva ("Carregando Recursos")
+   para i de 1 até 5 passo 1 faca
+      timer (250)
+      escreva(".")
+   fimpara
+   limpatela()
+   timer (0)     //zerando timer
+   enquanto senha <> "bem-te-vi" faca //<------SENHA
+   MudaCor("vermelho","Frente")
+   escreval("                          ATENÇÃO")   //mensagem inicial
+   escreval("Na PROXIMA TELA você irá digitar a senha que foi informada previamente.")
+   escreval("Para sua segurança não será possível ver a senha sendo digitada")
+   escreval("              Aperte ENTER para prosseguir")
+   leia(c)
+   limpatela()
+MudaCor("preto","Frente")//muda a cor da letra para preto para esconder a senha
+leia(senha)
+limpatela()
+MudaCor("branco","Frente")//retorna para cor normal
+se senha <> "bem-te-vi" entao   //validação de senha
+   limpatela()
+   escreval ("senha incorreta")
+   escreval(enter)
+   leia(c)
+   limpatela()
+fimse
+fimenquanto
+//menu inicial de entradada de dados
+enquanto es<>3 faca
+   escreval ("+----------------------------------------------+")
+   escreval ("¦                  SIMULT-PDF                  ¦")
+   escreval ("¦ -------------------------------------------- ¦")
+   escreval ("¦                1-INSERIR MULTA               ¦")
+   escreval ("¦ -------------------------------------------- ¦")
+   escreval ("¦  2-Gerar Relatório de Arrecadação de Fundos  ¦")
+   escreval ("¦ -------------------------------------------- ¦")
+   escreval ("¦                    3-Sair                    ¦")
+   escreval ("¦ -------------------------------------------- ¦")
+   escreval ("+----------------------------------------------+")
+   escreva ("                Escolha uma opção: ")
+   leia(es)
+   se (es<=0)ou(es>3) entao
+      escreval("Opção inválida, ",enter)
+      leia(c)
+      limpatela()
+   fimse
+   se es = 1 entao //adição de multa ao sistema
+      enquanto minusc(verifica) <> "s" faca
+         limpatela()
+         enquanto verificaPlaca <> 7 faca        //recebe placa
+            escreval("Inserir Multa ")
+            escreva("Digite a placa do veículo: ")
+            leia(placa)
+            verificaPlaca <- Compr(placa)
+            se verificaPlaca <> 7 entao
+               MudaCor("Vermelho","fundos")
+               escreval("Placa inválida, ",enter)
+               leia(c)
+               MudaCor("preto","fundos")
+               limpatela()
+            fimse
+         fimenquanto
+         placa<-maiusc(placa)
+         verificaPlaca <- 0
+         escreval("")
+         escreva("Modelo do veículo: ")             //recebe modelo
+         leia(modelo)
+         modelo <- maiusc(modelo)
+         escreval("")
+         enquanto verificaCarteira <> 11 faca      //recebe nº da carteira e verifica se tem 11 casas
+            escreva("número da carteira de motorista (Nº registro) : ")
+            leia(numeroCarteira)
+            verificaCarteira <- Compr(numeroCarteira)
+            se verificaCarteira <> 11 entao
+               MudaCor("Vermelho","fundos")
+               escreval("Nº registro inválido, ",enter)
+               leia(c)
+               MudaCor("preto","fundos")
+               limpatela()
+               escreval("Inserir Multa ")
+               escreval("")
+               escreval("Digite a placa do veículo: ",placa)
+               escreval("")
+               escreval("Modelo do veículo: ", modelo)
+               escreval("")
+            fimse
+         fimenquanto
+         verificaCarteira <- 0
+         escreval("")
+         escreva("Nome do condutor: ")          //recebe nome
+         leia(nome)
+         nome<-maiusc(nome)
+         escreval("")
+         //recebe e verifica o tipo de multa
+         enquanto (tipoMulta<>"LEVE")e(tipoMulta<>"MÉDIA") e (tipoMulta<>"GRAVE")e(tipoMulta<>"GRAVÍSSIMA") faca
+            escreva("Tipo de multa(Leve, Média, Grave ou Gravíssima): ")
+            leia (tipoMulta)
+            tipoMulta<-maiusc(tipoMulta)
+            se (tipoMulta<>"LEVE")e(tipoMulta<>"MÉDIA") e (tipoMulta<>"GRAVE")e(tipoMulta<>"GRAVÍSSIMA") entao
+               MudaCor("Vermelho","fundos")
+               escreval("Tipo de multa inválida ",enter)
+               leia(c)
+               MudaCor("preto","fundos")
+               limpatela()
+               escreval("Inserir Multa ")
+               escreval("")
+               escreval("Digite a placa do veículo: ",placa)
+               escreval("")
+               escreval("Modelo do veículo: ", modelo)
+               escreval("")
+               escreval("Nome do condutor: ",nome)
+               escreval("")
+            fimse
+         fimenquanto
+         limpatela()
+//para fim estetico da tabela final, encontro o numero de caracter do dado com mais caracteres (m)
+         m<-compararM(compr(placa))
+         m<-compararM(compr(modelo))
+         m<-compararM(compr(nome))
+         m<-compararM(compr(tipoMulta))
+         m<-compararM(compr(numeroCarteira))
+         mcarsoma<-""   //resetando a variavel mcarsoma
+         m<-m+3    //m+3 para corrigri umpequeno erro de alinhamento na tabela 1
+         para i de 1 até m+4 passo 1 faca
+            mcarsoma<-"-"+mcarsoma
+         fimpara
+         mcarnome<-fazerTabela(compr(nome),m)
+         mcarplaca<-fazerTabela(compr(placa),m)
+         mcarcarteira<-fazerTabela(compr(numeroCarteira),m)
+         mcarmodelo<-fazerTabela(compr(modelo),m)
+         mcarmulta<-fazerTabela(compr(tipoMulta),m)
+//exibição da tabela final
+         escreval ("    Verifique se os dados então corretos")
+         escreval("---------------------",mcarsoma)
+         escreval("|Nome do Condutor:    | ",nome,mcarnome,"|")
+         escreval("---------------------",mcarsoma)
+         escreval("|Número da Carteira:  | ",numeroCarteira,mcarcarteira,"|")
+         escreval("---------------------",mcarsoma)
+         escreval("|Placa:               | ",placa,mcarplaca,"|")
+         escreval("---------------------",mcarsoma)
+         escreval("|Modelo:              | ",modelo,mcarmodelo,"|")
+         escreval("---------------------",mcarsoma)
+         escreval("|Tipo de Multa:       | ",tipomulta,mcarmulta,"|")
+         escreval("---------------------",mcarsoma)
+         escreva("Os dados esntão corretos? (s/n)")
+         mcarnome<-""
+         mcarplaca<-""
+         mcarcarteira<-""
+         mcarmodelo<-""
+         mcarmulta<-""
+         leia(verifica)
+         se minusc(verifica)="s" entao   //usuario verifica se a tabela está correta
+            escolha (tipoMulta)       //encaminha a mensagem da multa juntamente da tabela
+            caso "LEVE"
+               qLeve<-qLeve+1
+               Escreval("A multa no valor de R$88,38 foi registrada no nome de: ",nome)
+               escreval("O Valor de 3 Pontos foi adcionado no registro Nº",numeroCarteira)
+               escreval("Pressione enter para prosseguir")
+               leia(c)
+            caso "MÉDIA"
+               qMedia<-qMedia+1
+               Escreval("A multa no valor de R$130,16 foi registrada no nome de: ",nome)
+               escreval("O Valor de 4 Pontos foi adcionado no registro Nº",numeroCarteira)
+               escreval("Pressione enter para prosseguir")
+               leia(c)
+            caso "GRAVE"
+               qGrave<-qGrave+1
+               Escreval("A multa no valor de R$195,23 foi registrada no nome de: ",nome)
+               escreval("O Valor de 5 Pontos foi adcionado no registro Nº",numeroCarteira)
+               escreval("Pressione enter para prosseguir")
+               leia(c)
+            caso "GRAVÍSSIMA"
+               qGravissima<-qGravissima+1
+               Escreval("A multa no valor de R$293,47 foi registrada no nome de: ",nome)
+               escreval("O Valor de 7 Pontos foi adcionado no registro Nº",numeroCarteira)
+               escreval("Pressione enter para prosseguir")
+               leia(c)
+            fimescolha
+         senao
+            tipomulta<-""  //retorna tipomunta vazio para novo preenchimento
+         fimse
+      fimenquanto
+   limpatela()
+   m<-0//retorna m a 0 pra o proximo uso da função de cadastro
+   verifica<-""
+   tipomulta<-""  //retorna tipomunta vazio para novo preenchimento
+fimse
+
+se es = 2 entao //Geração de relatôrio
+   limpatela()
+   se (qLeve+qmedia+qgrave+qgravissima =0) entao //caso não tenham dados é mostrado um erro
+      escreval ("Não há dados para serem mostrados")
+   senao
+      multaleve<-qleve*88.38    //carregando os valores as variaveis
+      multaMedia<-qMedia*130.16
+      multaGrave<-qGrave*195.23
+      multaGravissima<-qGravissima*293.47
+      multatotal<-multaleve+multagrave+multamedia+multagravissima
+      qtotal<-qgravissima+qgrave+qmedia+qleve
+// ultilização da função fazerTabelaDois para geração de espaços de tabelas
+      qqleve<- fazerTabelaDois(compr(Numpcarac(qLeve)))
+      qqMedia<- fazerTabelaDois(compr(Numpcarac(qMedia)))
+      qqGrave<- fazerTabelaDois(compr(Numpcarac(qGrave)))
+      qqGravissima<- fazerTabelaDois(compr(Numpcarac(qGravissima)))
+      qqtotal<- fazerTabelaDois(compr(Numpcarac(total)))
+      qqmultaleve <- fazerTabelaDois(compr(Numpcarac(multaLeve)))
+      qqmultamedia<- fazerTabelaDois(compr(Numpcarac(multaMedia)))
+      qqmultagrave<- fazerTabelaDois(compr(Numpcarac(multaGrave)))
+      qqmultagravissima<- fazerTabelaDois(compr(Numpcarac(multaGravissima)))
+      qqmultatotal<- fazerTabelaDois(compr(Numpcarac(multaTotal)))
+//crição da tabela com espaçõs editados criados previamente
+      escreval("Relatôrio da Controladoria")
+      escreval("================================================")
+      escreval("|    Tipo    |   Quantidade   |   Arrecadado   |")
+      escreval("================================================")
+      escreval("|Leve        |",qqLeve,qLeve,qqLeve,"|",qqmultaleve,multaleve,qqmultaleve,"|")
+      escreval("-------------+----------------+-----------------")
+      escreval("|Média       |",qqMedia,qMedia,qqMedia,"|",qqmultamedia,multamedia,qqmultamedia,"|")
+      escreval("-------------+----------------+-----------------")
+      escreval("|Grave       |",qqGrave,qGrave,qqGrave,"|",qqmultagrave,multagrave,qqmultagrave,"|")
+      escreval("-------------+----------------+-----------------")
+      escreval("|Gravíssima  |",qqGravissima,qGravissima,qqGravissima,"|",qqmultagravissima,multagravissima,qqmultagravissima,"|")
+      escreval("-------------+----------------+-----------------")
+      escreval("|Total       |",qqtotal,qtotal,qqtotal,"|",qqmultatotal,multatotal,qqmultatotal,"|")
+      escreval("=============+================+=================")
+   fimse
+//retornar os contadores qq para "" para próxima execução
+   qqLeve<-""
+   qqMedia<-""
+   qqGrave<-""
+   qqGravissima<-""
+   qqtotal<-""
+   qqmultaleve<-""
+   qqmultamedia<-""
+   qqmultagrave<-""
+   qqmultagravissima<-""
+   qqmultatotal<-""
+   traco<-""
+   escreval("Aperte ENTER para retornar ao menú")
+   leia(c)
+fimse
+limpatela
+se es = 3 então //Logoff
+   Limpatela()
+   timer (300)
+   escreva("Finalizando Aplicação")
+   para i de 1 até 3 passo 1 faca
+      escreva(".")
+   fimpara
+fimse
+fimenquanto
+Fimalgoritmo
